@@ -1,0 +1,136 @@
+use new_db;
+
+drop table if exists doctorsExaminations;
+drop table if exists doctors;
+drop table if exists examinations;
+drop table if exists wards;
+drop table if exists departments;
+drop table if exists donations;
+drop table if exists sponsors;
+drop table if exists professors;
+drop table if exists diseases;
+drop table if exists interns;
+
+CREATE TABLE departments (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    building INT NOT NULL, 
+    name VARCHAR(255) NOT NULL ,
+    financing INT NOT NULL
+);
+
+CREATE TABLE doctors (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    premium_money INT NOT NULL,
+    salary INT NOT NULL,
+    surname VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE doctorsExaminations (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+	date date not null,
+    endTime TIME NOT NULL,
+    startTime TIME NOT NULL,
+    doctor_id INT NOT NULL,
+    disease_id INT NOT NULL,
+    examination_id INT NOT NULL,
+    ward_id INT NOT NULL,
+    FOREIGN KEY(doctor_id) REFERENCES doctors(id) ON DELETE CASCADE
+);
+
+CREATE TABLE examinations (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL 
+);
+
+CREATE TABLE sponsors (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+CREATE TABLE wards (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    places INT NOT NULL,
+    department_id INT NOT NULL,
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE
+);
+
+CREATE TABLE diseases (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE interns (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    doctor_id INT NOT NULL
+);
+
+CREATE TABLE professors (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    doctor_id INT NOT NULL
+);
+
+INSERT INTO departments (building, name, financing) VALUES
+(1, 'Cardiology', 150000),
+(2, 'Neurology', 200000),
+(3, 'General Surgery', 180000);
+
+INSERT INTO doctors (name, premium_money, salary, surname) VALUES
+('John', 500, 6000, 'Doe'),
+('Alice', 600, 7000, 'Smith'),
+('Michael', 400, 5500, 'Johnson');
+
+INSERT INTO doctorsExaminations (startTime, endTime, doctor_id, disease_id, examination_id, ward_id, date) VALUES 
+('12:00', '15:00', 1, 1, 1, 1, '2024:06:05'),
+('15:00', '16:00', 2, 2, 2, 2, '2024:05:20'),
+('16:00', '17:00', 3, 3, 3, 3, '2024:06:01');
+
+INSERT INTO examinations (name) VALUES
+('MRI Scan'),
+('Echocardiogram'),
+('X-ray');
+
+INSERT INTO sponsors (name) VALUES
+('ABC Company'),
+('XYZ Foundation');
+
+INSERT INTO wards (name, places, department_id) VALUES
+('Ward A', 20, 1),
+('Ward B', 15, 2),
+('Ward C', 25, 3);
+
+INSERT INTO diseases (name) VALUES
+('Heart Disease'),
+('Neurological Disorder'),
+('Fracture');
+
+INSERT INTO interns (doctor_id) VALUES
+(1),
+(2),
+(3);
+
+INSERT INTO professors (doctor_id) VALUES
+(1),
+(2),
+(3);
+
+
+-- Task 1
+--select w.name, w.places
+--from wards as w
+--join departments as dp
+--on w.department_id = dp.id
+--where dp.building = 1 and w.places > 15;
+
+-- Task 2
+select dp.name
+from departments as dp
+join wards as w
+on dp.id = w.department_id
+join doctorsExaminations as de
+on w.id = de.ward_id
+join examinations as e
+on e.id = de.examination_id
+where examination_id >= 1 and 7 < (select DATEDIFF(now(), date) from doctorsExaminations)
+
