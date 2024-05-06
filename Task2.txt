@@ -132,5 +132,6 @@ join doctorsExaminations as de
 on w.id = de.ward_id
 join examinations as e
 on e.id = de.examination_id
-where examination_id >= 1 and 7 < (select DATEDIFF(now(), date) from doctorsExaminations)
+where examination_id >= 1 and 7 < (select DATEDIFF(day, getdate(), de.date) from doctorsExaminations as de join examinations as e on de.examination_id = e.id);
+
 
