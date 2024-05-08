@@ -236,7 +236,7 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 
 
 
--- Request 6
+-- Task 6
 
 -- SELECT ds.name AS doctor_name
 -- FROM doctors AS ds
