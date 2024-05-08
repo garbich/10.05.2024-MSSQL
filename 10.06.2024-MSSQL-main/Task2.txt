@@ -168,29 +168,29 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 
 -- Task 1
 
- SELECT w.name, w.places 
- FROM wards AS w
- JOIN departments AS des
- ON w.department_id = des.id
- WHERE des.building = 5 
-   AND w.places >= 5
-   AND EXISTS (SELECT 1 
-     FROM wards AS w
-	 JOIN departments AS des
-	 ON w.department_id = des.id
-	 WHERE des.building = 5	
-	 AND w.places > 15);
+ --SELECT w.name, w.places 
+ --FROM wards AS w
+ --JOIN departments AS des
+ --ON w.department_id = des.id
+ --WHERE des.building = 5 
+ --  AND w.places >= 5
+ --  AND EXISTS (SELECT 1 
+ --    FROM wards AS w
+	-- JOIN departments AS des
+	-- ON w.department_id = des.id
+	-- WHERE des.building = 5	
+	-- AND w.places > 15);
 
 
 
 -- Task 2
  --SELECT DISTINCT des.name 
- --FROM doctors_examinations AS d_e
+ --FROM doctors_examinations AS de
  --JOIN wards AS w
  --ON d_e.ward_id = w.id
  --JOIN departments AS des
  --ON w.department_id = des.id
- --WHERE (GETDATE() - d_e.ex_date) < '7 days';
+ --WHERE (GETDATE() - de.ex_date) < '7 days';
 
 
 
@@ -200,9 +200,9 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 -- FROM diseases as dis
 -- WHERE dis.id NOT IN (
 --    SELECT dis.id
---    FROM doctors_examinations AS d_e
+--    FROM doctors_examinations AS de
 --    JOIN diseases AS dis
---     ON d_e.disease_id = dis.id
+--     ON de.disease_id = dis.id
 --    GROUP BY dis.id);
 
 
@@ -213,9 +213,9 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 -- FROM doctors AS ds
 -- WHERE ds.id NOT IN (
    -- SELECT ds.id
-   -- FROM doctors_examinations AS d_e
+   -- FROM doctors_examinations AS de
    -- JOIN doctors AS ds
-    -- ON d_e.doctor_id = ds.id
+    -- ON de.doctor_id = ds.id
    -- GROUP BY ds.id);
 
 
@@ -227,9 +227,9 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 -- FROM departments AS des
 -- WHERE des.id NOT IN (
 --    SELECT des.id
---    FROM doctors_examinations AS d_e
+--    FROM doctors_examinations AS de
 --    JOIN wards AS ws
---     ON d_e.ward_id = ws.id
+--     ON de.ward_id = ws.id
 --    JOIN departments AS des
 --	 ON ws.department_id = des.id
 --    GROUP BY des.id);
@@ -308,24 +308,24 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 -- FROM departments AS des
 -- WHERE des.id IN (
 -- 	 SELECT des.id 
---      FROM doctors_examinations AS d_e
+--      FROM doctors_examinations AS de
 --      JOIN wards AS w
---        ON d_e.ward_id = w.id
+--        ON de.ward_id = w.id
 --      JOIN departments AS des
 --        ON w.department_id = des.id
 --      JOIN doctors AS dos
---        ON d_e.doctor_id = dos.id
+--        ON de.doctor_id = dos.id
 --      JOIN interns AS ins
 --        ON ins.doctor_id = dos.id)
 -- 	AND des.id IN (
 -- 	 SELECT des.id 
---      FROM doctors_examinations AS d_e
+--      FROM doctors_examinations AS de
 --      JOIN wards AS w
---        ON d_e.ward_id = w.id
+--        ON de.ward_id = w.id
 --      JOIN departments AS des
 --        ON w.department_id = des.id
 --      JOIN doctors AS dos
---        ON d_e.doctor_id = dos.id
+--        ON de.doctor_id = dos.id
 --      JOIN professors AS ps
 --        ON ps.doctor_id = dos.id);
 
@@ -334,11 +334,11 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 
 -- Task 11
 -- SELECT CONCAT(dos.name, ' ', dos.surname) AS doctor, des.name AS department
--- FROM doctors_examinations AS d_e
+-- FROM doctors_examinations AS de
 -- JOIN doctors AS dos
---   ON d_e.doctor_id = dos.id
+--   ON de.doctor_id = dos.id
 -- JOIN wards AS ws
---   ON d_e.ward_id = ws.id
+--   ON de.ward_id = ws.id
 -- JOIN departments AS des
 --   ON ws.department_id = des.id
 -- WHERE des.financing >= 20000;
@@ -347,11 +347,11 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 
 -- Task 12
 --  SELECT dos.name AS doctor, des.name AS department
---  FROM doctors_examinations AS d_e
+--  FROM doctors_examinations AS de
 --  JOIN doctors AS dos
---    ON d_e.doctor_id = dos.id
+--    ON de.doctor_id = dos.id
 --  JOIN wards AS ws
---    ON d_e.ward_id = ws.id
+--    ON de.ward_id = ws.id
 --  JOIN departments AS des
 --    ON ws.department_id = des.id
 --  WHERE dos.salary = (
@@ -363,9 +363,9 @@ INSERT INTO doctors_examinations (doctor_id, start_time, end_time, ex_date, exam
 
 -- Task 13
 -- SELECT dis.name AS disease, COUNT(exs.id) AS count_examinations
--- FROM doctors_examinations AS d_e
+-- FROM doctors_examinations AS de
 -- JOIN diseases AS dis
---   ON d_e.disease_id = dis.id
+--   ON de.disease_id = dis.id
 -- JOIN examinations as exs
---   ON d_e.examination_id = exs.id
+--   ON de.examination_id = exs.id
 -- GROUP BY dis.name
